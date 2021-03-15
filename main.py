@@ -1,16 +1,16 @@
-# This is a sample Python script.
+import pandas as pd
+import matplotlib.pyplot as plt
+import get_datasets as gd
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+gd.get_dataset()
 
+country_data = pd.read_csv("country_vaccinations.csv")
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+print(country_data.head())
+print(country_data.shape)
 
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+find_nulls = country_data.isnull().sum()
+new_data = country_data.sort_values('total_vaccinations', ascending=False).groupby('country',
+                                                                                  sort=True).first().reset_index()
